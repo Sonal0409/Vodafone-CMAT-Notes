@@ -1,0 +1,26 @@
+
+
+Demo on Ansible Roles:
+=====================================
+
+Step 1: Clone the repository to get all the files for tomcat role as explained:
+
+# git clone https://github.com/Sonal0409/AnsibleRolesDemo.git
+
+# cd AnsibleRolesDemo
+
+You will find the roles directory
+
+Create a playbook to run the role:
+
+# vim playbooktomcat.yml
+
+- hosts: webserver
+  become: true
+  become_user: root
+  roles:
+   - tomcat
+   
+ Run the below command to exeucte the playbook and roles
+ 
+ # ansible-playbook -i /home/ansiuser/myinventory playbooktomcat.yml --extra-vars action=install
