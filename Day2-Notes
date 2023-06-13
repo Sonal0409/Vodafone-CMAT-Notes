@@ -1,4 +1,67 @@
+Write a playbook using custom variables and loops:
+===================================================
+- hosts: webserver
+  become: true
+  become_user: root
+  vars:
+   user_list:
+    - user01
+    - user02
+    - user03
+  tasks:
+  - name: update apt cache
+    apt: update_cache=yes cache_valid_time=3600
+  - name: Install packages on the host servers
+    package: name={{item}} state=present
+    loop:
+     - apache2
+     - mysql-server
+     - php-mysql
+     - php
+     - libapache2-mod-php
+     - python3-mysqldb
+  - name: Create users on host servers
+    user: name={{item}} state=present
+    loop: "{{user_list}}"
+Note: double quotation is mandatory in the last loop.
 
+
+NGINX Demo: Custom variables, fact Variables, Jinja 2, handlers
+==========================================================
+
+# vim index.j2.html
+<h1> Deep dive into Ansible </h1>
+<h1> Learning jinja2 templating </h1>
+<h1> {{ansible_date_time}} </h1>
+
+Save the file
+
+# vim playbooknginx.yml
+
+- hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+  - name: nginx
+    command: apt-get update
+  - name: uninstall apache
+    package: name=apache2 state=absent
+  - name: Install nginx
+    package: name=nginx state=present
+  - name: start nginx
+    service: name=nginx state=started
+  - name: template index.j2.html file to nginx server
+    template:
+     src: index.j2.html
+     dest: /usr/share/nginx/html/index.html
+     mode: 0644
+    notify: Restart nginx service
+  handlers:
+  - name: Restart nginx service
+    service: name=nginx state=restarted
+     
+
+# ansible-playbook playbooknginx.yml
 
 Demo on Ansible Roles:
 =====================================
