@@ -23,7 +23,7 @@ Write a playbook using custom variables and loops:
   - name: Create users on host servers
     user: name={{item}} state=present
     loop: "{{user_list}}"
-Note: double quotation is mandatory in the last loop.
+
 
 
 NGINX Demo: Custom variables, fact Variables, Jinja 2, handlers
