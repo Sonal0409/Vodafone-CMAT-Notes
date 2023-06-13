@@ -147,3 +147,24 @@ Create a playbook to run the role:
  Run the below command to exeucte the playbook and roles
  
  # ansible-playbook -i /home/ansiuser/myinventory playbooktomcat.yml --extra-vars action=install
+ 
+ ==============================================
+ 
+ Blocks and ignore errors:
+ 
+ - hosts: webserver
+  become: true
+  tasks:
+  - block:
+    - name: update apt-cache
+      apt: update_cache=yes cache_valid_time=3600
+    - name: install package for LAMP architecture
+      package: name={{item}} state=present
+      loop:
+      - mysql-server456dfg
+      - php-mysql455df
+    ignore_errors: yes
+  - name: Create a directory on worker nodes
+    file: path=/tmp/mydir state=directory
+  - name: Create a file in the directory
+    file: path=/tmp/sonal state=touch
