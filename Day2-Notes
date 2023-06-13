@@ -60,12 +60,41 @@ vim playbooktags.yml
 NGINX Demo: Custom variables, fact Variables, Jinja 2, handlers
 ==========================================================
 
-# vim index.j2.html
-<h1> Deep dive into Ansible </h1>
-<h1> Learning jinja2 templating </h1>
-<h1> {{ansible_date_time}} </h1>
+# vim index.html.j2
+
+<h1> Deploy app on Apache </h1>
+<h1> This deployment is done on server with name as {{ansible_hostname}} </h1>
+<h1> The os familty of hosts is {{ansible_os_family}} </h1>
+<h1> The time on the hostserver is {{ansible_date_time}} </h1>
+<h1> The system admin is {{system_admin}} </h1>
+<h1> Reach out to him on {{email}} </h1>
 
 Save the file
+
+# vim playbookapache.yml
+
+- hosts: webserver
+  become: true
+  vars:
+   pkg_name: apache2
+   system_admin: admin
+   email: sysadmin@sl.com
+  tasks:
+  - name: Install a packge on hostservers
+    package: name={{pkg_name}} state=present
+  - name: Start the apache server
+    service: name={{pkg_name}} state=started
+  - name: Copy the j2 template on apache server
+    template:
+     src: index.html.j2
+     dest: /var/www/html
+  - name: restart the apache server
+    service: name={{pkg_name}} state=restarted
+
+
+
+
+
 
 # vim playbooknginx.yml
 
