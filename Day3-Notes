@@ -1,0 +1,225 @@
+
+Dynamic Inventory Creation:
+=============================
+
+# su - ansiuser
+
+command to install amazon aws on lab
+
+# ansible-galaxy collection install amazon.aws
+
+Install boto3 and botocore
+
+# sudo apt install python3-pip
+
+# pip3 install boto3
+
+it installs both boto3 and botocore
+
+Update the ansible.cfg file
+================================
+sudo vim ansible.cfg
+
+[defaults]
+
+enable_plugins = aws_ec2
+
+Save the file
+
+Create the aws_ec2.yml file which will your inventory
+=======================================
+sudo vim aws_ec2.yml
+
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+
+Save the file.
+
+Create access key and secret key and save it as environment variables:
+
+ export AWS_ACCESS_KEY_ID=AKIAUJU24ZR32IBBQK7L
+ export AWS_SECRET_ACCESS_KEY=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
+ 
+ Now execute the command to list the inventory:
+
+ansible-inventory -i /home/ansiuser/aws_ec2.yml --list
+
+
+You will see the inventory information under , but right now we have no hosts or VM in AWS
+
+"aws_ec2": {
+        "hosts": [
+           
+        ]
+    }
+}
+
+Lets create an EC2 instance on AWS and run the inventory command again.
+
+
+ansible-inventory -i /home/ansiuser/aws_ec2.yml --list
+
+======================================
+
+Terraform:
+==============================
+
+Install terraform on the lab:
+==================================
+# sudo su -
+# wget https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
+# unzip terraform_1.5.0_linux_amd64.zip
+# mv terraform /usr/local/bin
+
+Validate:
+
+# terraform
+
+All terraform commands will be displayed
+
+Provider block:
+=======================================
+# vim awsprovider.tf
+
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+Save the file.
+
+# terraform init
+
+Resource block
+===========================================
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+resource "aws_instance" "myec2" {
+  ami = "ami-0800fc0fa715fdcfe"
+  instance_type = "t2.micro"
+
+}
+
+Save the file
+
+# terraform plan
+# terraform apply
+
+===========================================
+
+Elastic ip resource block
+
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+resource "aws_instance" "myec2" {
+  ami = "ami-0800fc0fa715fdcfe"
+  instance_type = "t2.micro"
+
+}
+resource "aws_eip" "lb1"{
+  vpc = true
+}
+
+Save the file
+
+# terraform apply
+
+================================================
+Elastic IP association with Ec2
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+resource "aws_instance" "myec2" {
+  ami = "ami-0800fc0fa715fdcfe"
+  instance_type = "t2.micro"
+
+}
+resource "aws_eip" "lb1"{
+  vpc = true
+}
+resource aws_eip_association "eip_assoc"{
+instance_id = aws_instance.myec2.id
+allocation_id= aws_eip.lb1.id
+}
+
+Save the file
+
+# terraform apply
+
+===============================================
+
+Output block
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+resource "aws_instance" "myec2" {
+  ami = "ami-0800fc0fa715fdcfe"
+  instance_type = "t2.micro"
+
+}
+resource "aws_eip" "lb1"{
+  vpc = true
+}
+
+resource aws_eip_association "eip_assoc"{
+instance_id = aws_instance.myec2.id
+allocation_id= aws_eip.lb1.id
+}
+
+output "eip" {
+value=  aws_eip.lb.public_ip
+}
+
+====================================================
+
+Variable block
+
+
+Dynamic Block
+
+
+Modules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
