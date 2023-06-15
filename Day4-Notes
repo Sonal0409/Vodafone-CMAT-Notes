@@ -270,17 +270,61 @@ Save the file
 # terraform apply
 
 
-
-
-
-
-
-
-
-
-
-
 Demo4: Provisioners in Terraform and setup complete infrastructure in AWS using Terraform
+
+
+provider "aws" {
+
+  region     = "us-east-1"
+  access_key = "
+  secret_key = "
+}
+resource "aws_vpc" "sl-vpc" {
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "simplilearn"
+  }
+}
+resource "aws_subnet" "subnet-1" {
+  vpc_id     = aws_vpc.sl-vpc.id
+  cidr_block = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  depends_on = [aws_vpc.sl-vpc]
+  availability_zone = "us-east-1a"
+  tags = {
+    Name = "sl-subnet"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 CEP discussion
