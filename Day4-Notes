@@ -272,6 +272,9 @@ Save the file
 
 Demo4: Provisioners in Terraform and setup complete infrastructure in AWS using Terraform
 
+# cd
+
+# vim awsinfra.tf
 
 provider "aws" {
 
