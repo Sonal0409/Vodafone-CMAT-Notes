@@ -203,6 +203,48 @@ Save the file
 
 # terraform plan
 
+============================================
+
+if we dont want the variable values to be replaced by a user then we make use of local block in tf file.
+
+# cd modules
+
+# mkdir mysg
+
+# cd mysg
+
+resource "aws_security_group" "sg_ec2" {
+  name        = "allow_tls"
+  description = "security group rule for ec2 "
+
+  ingress {
+    from_port        = local.port
+    to_port          = local.port
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+resource "aws_security_group" "sg_lb" {
+  name        = "allow_tls123"
+  description = "security group rule for lb "
+
+  ingress {
+    from_port        = local.port
+    to_port          = local.port
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+locals{
+
+port = 8443
+
+}
+
+Save the file
+
+# pwd  :  /root/modules/mysg
+
 
 
 
