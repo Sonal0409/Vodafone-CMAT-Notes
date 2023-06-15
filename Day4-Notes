@@ -243,6 +243,10 @@ port = 8443
 
 Save the file
 
+vim variables.tf
+
+variable "port" {}
+
 # pwd  :  /root/modules/mysg
 
 # cd ../..
@@ -255,7 +259,7 @@ Save the file
 module "mysgmodule" {
 
 source = "/root/modules/mysg"
-
+port = 22
 }
 
 
