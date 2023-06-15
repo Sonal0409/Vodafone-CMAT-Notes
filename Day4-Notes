@@ -145,7 +145,23 @@ save the file
 
 Path of the module  : /root/modules/myec2
 
+# cd ../..
 
+# cd dev
+
+# vim main.tf
+
+module "myec2module" {
+
+source = "/root/modules/myec2"
+
+}
+
+save the file
+
+# terraform init
+
+# terraform apply
 
 
 
