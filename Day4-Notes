@@ -163,11 +163,45 @@ save the file
 
 # terraform apply
 
+# vim provider.tf
 
+provider "aws" {
+  region     = "us-east-1"
+  access_key = 
+  secret_key =
+}
 
+Save the file
 
+# terraform apply
 
+cd ..
 
+# cd prod
+
+# vim provider.tf
+
+provider "aws" {
+  region     = "us-east-1"
+  access_key = 
+  secret_key =
+}
+
+save the file
+
+# vim main.tf
+
+module "myec2module" {
+
+source = "/root/modules/myec2"
+instance_type = "t2.large"
+}
+
+Save the file
+
+# terraform init
+
+# terraform plan
 
 
 
