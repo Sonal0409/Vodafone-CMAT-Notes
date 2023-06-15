@@ -389,7 +389,7 @@ resource "aws_instance" "myec2" {
    Name = "awsinfra"
    }
   subnet_id = aws_subnet.subnet-1.id
-  key_name = "web_key"
+  key_name = "web-key"
   provisioner "remote-exec" {
 
   connection {
