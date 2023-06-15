@@ -60,10 +60,37 @@ resource "aws_instance" "myec2" {
 }
 
 
-
-
 Demo2: Dynamic Block
 
+# vim awssg.tf
+
+variable "sg_ports" {
+type = list(number)
+default = [8989,8080,80,9091]
+}
+
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic"
+
+dynamic "ingress" {
+  for_each = var.sg_ports
+  iterator = port
+  content{
+    description      = "TLS from VPC"
+    from_port        = port.value
+    to_port          = port.value
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+
+  }
+}
+
+}
+
+Save the file
+
+# terraform apply
 
 Demo3: Modules In Terraform
 
