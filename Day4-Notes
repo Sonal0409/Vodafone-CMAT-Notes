@@ -94,6 +94,78 @@ Save the file
 
 Demo3: Modules In Terraform
 
+# cd
+
+# mkdir modules dev prod
+
+# cd modules
+
+# mkdir myec2
+
+# cd myec2
+
+# vim myec2.tf
+
+data "aws_ami" "my_ami" {
+
+most_recent = true
+
+owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+}
+
+
+
+resource "aws_instance" "myec2" {
+  ami           = data.aws_ami.my_ami.id
+  instance_type = var.instance_type
+
+  tags = {
+    Name = "terraform"
+  }
+}
+
+Save the file
+
+vim variables.tf
+
+variable "instance_type" {
+
+ default = "t2.micro"
+
+}
+
+save the file
+
+# pwd
+
+Path of the module  : /root/modules/myec2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Demo4: Provisioners in Terraform and setup complete infrastructure in AWS using Terraform
 
