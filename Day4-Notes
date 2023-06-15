@@ -223,7 +223,7 @@ resource "aws_security_group" "sg_ec2" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }
-
+}
 resource "aws_security_group" "sg_lb" {
   name        = "allow_tls123"
   description = "security group rule for lb "
@@ -234,7 +234,7 @@ resource "aws_security_group" "sg_lb" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }
-
+}
 locals{
 
 port = 8443
@@ -245,8 +245,25 @@ Save the file
 
 # pwd  :  /root/modules/mysg
 
+# cd ../..
+
+# cd dev
+
+# vim mian.tf
 
 
+module "mysgmodule" {
+
+source = "/root/modules/mysg"
+port = 22
+}
+
+
+Save the file
+
+# terraform init
+
+# terraform apply
 
 
 
